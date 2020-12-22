@@ -1,4 +1,4 @@
-import { Book } from './intefaces';
+import { Book, LibMgrCallback } from './intefaces';
 import { Category } from './enums';
 import { BookOrUndefined, BookProperties } from './types';
 
@@ -126,4 +126,46 @@ export function getBookProp(book: Book, prop: BookProperties): any {
 
 export function purge<T>(inventory: Array<T>): Array<T> {
     return inventory.slice(2);
+}
+
+export function getBooksByCategory(category: Category, callback: LibMgrCallback): void {
+    setTimeout(() => {
+        try {
+            const titles = getBookTitlesByCategory(category);
+            if(titles.length > 0) {
+                callback(null, titles);
+            } else {
+                throw new Error('No books');
+            }
+        } catch(error) {
+            callback(error, null);
+        }
+    }, 2000);
+}
+
+export function logCategorySearch(error: Error, titles: string[]): void {
+    if(error) {
+        console.log(`Error ${error.message}`);
+    } else {
+        console.log(titles);
+    }
+}
+
+export function getBooksByCategoryPromise(category: Category): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const titles = getBookTitlesByCategory(category);
+            if(titles.length > 0) {
+                resolve(titles);
+            } else {
+                reject('No books');
+            }
+        }, 2000);
+    });
+}
+
+export async function logSearchResults(category: Category): Promise<string[]> {
+    const titles =  await getBooksByCategoryPromise(category);
+    console.log(titles);
+    return titles;
 }

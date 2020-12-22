@@ -1,9 +1,6 @@
-import { BookRequiredFields, CreateCustomerFunctionType, UpdatedBook } from './types';
 import { Category } from './enums';
-import { Book, Magazine } from './intefaces';
-import { RefBook, Shelf, UniversityLibrarian } from './classes';
-import { createCustomer } from './functions';
-import Encyclopedia from './classes/Encyclopedia';
+import { Book } from './intefaces';
+import { getBooksByCategoryPromise, logSearchResults } from './functions';
 
 showHello('greeting', 'TypeScript');
 
@@ -220,15 +217,48 @@ const inventory: Book[] = [
 // enc.printItem();
 
 // Task 08.05. Parameter Decorator (logParameter) && Task 08.06. Property Decorator
-const o = new UniversityLibrarian();
-o.name = 'Slava';
-console.log(o);
-o.assistCustomer('Anna');
+// const o = new UniversityLibrarian();
+// o.name = 'Slava';
+// console.log(o);
+// o.assistCustomer('Anna');
 
 // Task 08.07. Accessor Decorator
 
 // const enc = new RefBook(0, 'Title', 2020, 2);
 // enc.copiess = 20;
 // enc.copiess = -1.5;
+
+// 09. Asynchronous Patterns
+// Task 09.01. Callback Functions
+// console.log('Start');
+// getBooksByCategory(Category.JavaScript, logCategorySearch);
+// getBooksByCategory(Category.Software, logCategorySearch);
+// console.log('Finish');
+
+// Task 09.02. Promises
+
+// console.log('Start');
+// getBooksByCategoryPromise(Category.JavaScript)
+//     .then(titles => {
+//         console.log(titles);
+//         return titles.length;
+//     })
+//     .then(numberOfBooks => console.log(numberOfBooks))
+//     .catch(err => console.log(err));
+// getBooksByCategoryPromise(Category.Software)
+//     .then(titles => console.log(titles))
+//     .catch(err => console.log(err));
+// console.log('Finish');
+
+// Task 09.03. Async Functions
+
+logSearchResults(Category.JavaScript)
+    .then(titles => {
+        console.log('Number of books',titles.length);
+    });
+logSearchResults(Category.Software)
+    .catch(err => console.log(err));
+
+
 
 
